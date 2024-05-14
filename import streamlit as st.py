@@ -12,7 +12,7 @@ def load_data():
     return data
 
 def preprocess_data(X):
-    # NaN değerleri ortalama ile doldur
+  
     imputer = SimpleImputer(strategy='mean')
     X_imputed = imputer.fit_transform(X)
     return X_imputed
@@ -23,7 +23,7 @@ def knn_hyperparameter_tuning(X, y):
     y: dependent variable
     return best model, its accuracy, and confusion matrix
     '''
-    # Veri ön işleme
+    
     X = preprocess_data(X)
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
@@ -48,7 +48,7 @@ def knn_hyperparameter_tuning(X, y):
 
     return best_model, accuracy_score(y_pred, y_test), confusion_matrix(y_pred, y_test), classification_report(y_pred, y_test)
 
-# Streamlit arayüzü
+
 def main():
     st.title("Kanser Tahmini")
     st.sidebar.header("Giriş Değerleri")
@@ -63,15 +63,15 @@ def main():
     normal_nucleoli = st.sidebar.slider("Normal Nucleoli", 1, 10, 1)
     mitoses = st.sidebar.slider("Mitoses", 1, 10, 1)
 
-    # Veriyi yükle
+
     data = load_data()
     X = data.drop('Class', axis=1)  # Bağımsız değişkenler
     y = data['Class']  # Bağımlı değişken
 
-    # Modeli eğit ve sonuçları al
+   
     best_knn_model, knn_accuracy, knn_confusion_matrix, knn_classification_report = knn_hyperparameter_tuning(X, y)
 
-    # Tahmin yap
+   
     input_data = [[clump_thickness, uniformity_of_cell_size, uniformity_of_cell_shape, 
                    marginal_adhesion, single_epithelial_cell_size, bare_nuclei, 
                    bland_chromatin, normal_nucleoli, mitoses]]
